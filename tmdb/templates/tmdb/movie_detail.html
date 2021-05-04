@@ -1,0 +1,57 @@
+{% extends "tmdb/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <img class="article-img" src="{{ movie.image.url }}" alt="{{ movie.title }} Poster">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h2>{{ movie.title }} <small class="text-muted">{{ movie.year }}</small></h2>
+            </div>
+            <p class="text-muted mb-2">{{ movie.genres }}</p>
+            <p class="article-content">Director: {{ movie.directors }}</p>
+            <p class="article-content">Production: {{ movie.production }}</p>
+            <p class="article-content">{{ movie.description }}</p>
+            <iframe class="mb-2" width="560" height="315" src="{{ movie.trailer_url }}"
+                    title="{{ movie.title }} Trailer"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </article>
+
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h2>Reviews <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'review-create' movie.id %}">New</a></h2>
+                <div>
+
+                </div>
+            </div>
+            {% if movie.review_set.count == 0 %}
+                <h4 class="mt-4">No reviews have been posted yet!</h4>
+                <a href="#">Would you like to be the first?</a>
+            {% else %}
+                {% for review in movie.review_set.all %}
+                    <article class="media review-section mt-4">
+                        <div class="media-body">
+                            <div class="article-metadata mb-3">
+                                <h6>{{ review.author }} <small class="text-muted">{{ review.date_posted }}</small></h6>
+                                {% if review.author == user %}
+                                    <div>
+                                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'review-update' review.id %}">Update</a>
+                                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'review-delete' review.id %}">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <p>{{ review.rating }} &starf;</p>
+                            <p>{{ review.content }}</p>
+
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </article>
+{% endblock content %}

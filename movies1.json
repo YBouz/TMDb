@@ -1,0 +1,54 @@
+[
+  {
+    "Title": "Inception",
+    "Description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+    "Image": "Inception.jpg",
+    "Trailer_URL": "https://youtu.be/YoHD9XEInc0",
+    "Year": 2010,
+    "Age": "13+",
+    "Directors": "Christopher Nolan",
+    "Production": "Syncopy, Warner Bros.\n",
+    "Genres": "Action,Adventure,Sci-Fi,Thriller",
+    "Language": "English,Japanese,French",
+    "Runtime": 148
+  },
+  {
+    "Title": "The Matrix",
+    "Description": "Neo (Keanu Reeves) believes that Morpheus (Laurence Fishburne), an elusive figure considered to be the most dangerous man alive, can answer his question -- What is the Matrix? Neo is contacted by Trinity (Carrie-Anne Moss), a beautiful stranger who leads him into an underworld where he meets Morpheus. They fight a brutal battle for their lives against a cadre of viciously intelligent secret agents. It is a truth that could cost Neo something more precious than his life.",
+    "Image": "thematrix.jpg",
+    "Trailer_URL": "https://youtu.be/vKQi3bBA1y8",
+    "Year": 1999,
+    "Age": "18+",
+    "Directors": "Andy Wachowski, Larry Wachowski",
+    "Production": "Silver Pictures, Village Roadshow Prod.\n",
+    "Genres": "Action,Sci-Fi",
+    "Language": "English",
+    "Runtime": 136
+  },
+  {
+    "Title": "Avengers: Infinity War",
+    "Description": "Iron Man, Thor, the Hulk and the rest of the Avengers unite to battle their most powerful enemy yet -- the evil Thanos. On a mission to collect all six Infinity Stones, Thanos plans to use the artifacts to inflict his twisted will on reality. The fate of the planet and existence itself has never been more uncertain as everything the Avengers have fought for has led up to this moment.",
+    "Image": "infinitywar.jpg",
+    "Trailer_URL": "https://youtu.be/6ZfuNTqbHE8",
+    "Year": 2018,
+    "Age": "13+",
+    "Directors": "Anthony Russo,Joe Russo",
+    "Production": "Marvel Studios",
+    "Genres": "Sci Fi, Action, Fantasy, Adventure",
+    "Language": "English",
+    "Runtime": 149
+  },
+   {
+    "Title": "Avengers: Endgame",
+    "Description": "Adrift in space with no food or water, Tony Stark sends a message to Pepper Potts as his oxygen supply starts to dwindle. Meanwhile, the remaining Avengers -- Thor, Black Widow, Captain America and Bruce Banner -- must figure out a way to bring back their vanquished allies for an epic showdown with Thanos -- the evil demigod who decimated the planet and the universe.",
+    "Image": "endgame.jpg",
+    "Trailer_URL": "https://youtu.be/TcMBFSGVi1c",
+    "Year": 2018,
+    "Age": "13+",
+    "Directors": "Anthony Russo,Joe Russo",
+    "Production": "Marvel Studios, Walt Disney Pictures",
+    "Genres": "Sci Fi, Action, Fantasy, Adventure",
+    "Language": "English",
+    "Runtime": 149
+  }
+]
