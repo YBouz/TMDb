@@ -24,6 +24,22 @@ class Movie(models.Model):
         return reverse('movie-detail', kwargs={'pk': self.pk})
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    dob = models.DateField()
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Review(models.Model):
     rating = models.IntegerField()
     content = models.TextField()
@@ -34,6 +50,6 @@ class Review(models.Model):
     def __str__(self):
         return f'{self.author} - {self.movie} ({self.date_posted})'
 
-    def get_absolute_url(self):
-        return reverse('review-create', kwargs={'pk': self.pk})
+    # def get_absolute_url(self):
+    #     return reverse('review-create', kwargs={'pk': self.pk})
         # not sure about this
