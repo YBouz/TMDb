@@ -1,12 +1,20 @@
 {% extends "tmdb/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="card mb-3">
         <div class="card-body row">
             <div class="col-2 card-title align-self-center">
-                <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
+                <img class="card-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
             </div>
             <div class="col-10 card-title align-self-center">
                 <h2><b>{{ title.name }}</b> <small class="text-muted">{{ title.year }}</small></h2>
+                <br>
+                {% if title.avg_rating %}
+                    <h5>{{ title.avg_rating }} <span style="color: gold">&starf;</span></h5>
+                {% else %}
+                    <small><span style="color: gold">&starf;</span> <a href="{% url 'review-create' title.id %}">Rate
+                        now?</a></small>
+                {% endif %}
             </div>
         </div>
         <ul class="list-group list-group-flush">
@@ -50,10 +58,10 @@
                     {% for crew in title.titlecrew_set.all %}
                         <div class="col-4 text-center">
                             <a href="{% url 'person-detail' crew.person.id %}">
-                                <div class="card card-link mb-3">
+                                <div class="card card-inner card-link mb-3">
                                     <div class="card-body">
                                         <div class="card-title">
-                                            <img class="article-img" src="{{ crew.person.image.url }}"
+                                            <img class="card-img" src="{{ crew.person.image.url }}"
                                                  alt="{{ crew.person.name }} Image">
                                         </div>
                                         <div class="card-title">
@@ -69,10 +77,10 @@
                     {% for cast in title.titlecast_set.all %}
                         <div class="col-4 text-center">
                             <a href="{% url 'person-detail' cast.person.id %}">
-                                <div class="card mb-3">
+                                <div class="card card-inner card-link mb-3">
                                     <div class="card-body">
                                         <div class="card-title">
-                                            <img class="article-img" src="{{ cast.person.image.url }}"
+                                            <img class="card-img" src="{{ cast.person.image.url }}"
                                                  alt="{{ cast.person.name }} Image">
                                         </div>
                                         <div class="card-title">
@@ -88,8 +96,17 @@
             </li>
 
             <li class="list-group-item">
-                <h2><b>Reviews</b> <a class="btn btn-outline-primary btn-sm mt-1 mb-1"
-                                      href="{% url 'review-create' title.id %}">New</a></h2>
+                <h2>
+                    <b>Reviews</b>
+                    {#                    <a class="btn btn-outline-primary btn-sm mt-1 mb-1"#}
+                    {#                       href="{% url 'review-create' title.id %}">New</a>#}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-sm mt-1 mb-1" data-toggle="modal"
+                            data-target="#newReviewModal">
+                        New
+                    </button>
+                </h2>
+
                 {% for review in title.titlereview_set.all %}
                     <div class="col-12">
                         <div class="card mb-3">
@@ -101,7 +118,7 @@
                                         {% if review.author == user %}
                                             <div>
                                                 <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
-                                                   href="{% url 'review-update' review.id %}">Update</a>
+                                                   href="{% url 'review-update' title.id %}">Update</a>
                                                 <a class="btn btn-outline-danger btn-sm mt-1 mb-1"
                                                    href="{% url 'review-delete' review.id %}">Delete</a>
                                             </div>
@@ -120,5 +137,33 @@
                 {% endfor %}
             </li>
         </ul>
+    </div>
+
+    <!-- Create Review Modal -->
+    <div class="modal fade" id="newReviewModal" tabindex="-1" role="dialog" aria-labelledby="newReviewModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="newReviewModal">Post your new review...</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{ form|crispy }}
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

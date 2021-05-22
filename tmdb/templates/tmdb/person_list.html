@@ -1,16 +1,22 @@
 {% extends "tmdb/base.html" %}
 {% block content %}
     {% for person in persons %}
-        <a class="article-title" href="{% url 'person-detail' person.id %}">
+        <a href="{% url 'person-detail' person.id %}">
             <div class="card card-link mb-3">
                 <div class="card-body row">
-                    <div class="col-4 card-title align-self-center">
-                        <img class="article-img" src="{{ person.image.url }}" alt="{{ person.name }} Poster">
+                    <div class="col-2 card-title align-self-center">
+                        <img class="card-img" src="{{ person.image.url }}" alt="{{ person.name }} Poster">
                     </div>
-                    <div class="col-8 card-title align-self-center">
+                    <div class="col-10 card-title align-self-center">
                         <h3>{{ person.name }}</h3>
                     </div>
                 </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Date of Birth:</b> {{ person.dob }}
+                    </li>
+                </ul>
             </div>
         </a>
     {% endfor %}

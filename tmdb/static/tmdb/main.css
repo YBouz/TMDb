@@ -16,13 +16,12 @@ ul {
   margin: 0;
 }
 
-.bg-steel {
+.bg-nav {
   background-color: #005487;
 }
 
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
-
   text-transform: uppercase;
 }
 
@@ -42,52 +41,25 @@ ul {
   margin-bottom: 20px;
 }
 
-.content-post:hover {
-  color: #444444;
-  opacity: 0.7;
-}
-
-.review-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #444444;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
 .card {
   color: #444444;
 }
 
+.card-inner {
+  background-color: #f5f5f5;
+}
 .card-link:hover {
   opacity: 0.6;
 }
 
-.article-title {
+.card-title {
   color: #444444;
 }
 
-.article-img {
+.card-img {
   height: 140px;
   width: 90px;
   margin-right: 16px;
-}
-
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #005487;
-}
-
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
-}
-
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
 }
 
 .account-img {

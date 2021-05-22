@@ -3,12 +3,12 @@ from .models import Title, Genre, Person, Production, TitleGenre, TitleCast, Tit
 
 
 # Customize
-
+admin.site.site_header = 'TMDb Admin'
 
 # Register your models here.
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ['author', 'title', 'rating', 'date_posted']
-    list_filter = ['date_posted']
+    list_filter = ['date_posted', 'author', 'title']
     search_fields = ['author', 'title']
 
 

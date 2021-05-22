@@ -137,3 +137,6 @@ class TitleReview(models.Model):
 
     def __str__(self):
         return f'{self.author} - ({self.date_posted})'
+
+    def get_absolute_url(self):
+        return reverse('title-detail', kwargs={'pk': Title.pk})

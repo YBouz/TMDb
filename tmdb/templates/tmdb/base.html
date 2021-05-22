@@ -24,7 +24,7 @@
 
 <body>
 <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-nav fixed-top">
         <div class="container">
             <a class="navbar-brand mr-4" href="{% url 'tmdb-home' %}">TMDb</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -88,7 +88,8 @@
 
                 <p class='text-muted ml-2'>Browse by:
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-latest' %}">{% now 'Y' %} Release</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-latest' %}">{% now 'Y' %}
+                        Release</a></li>
                     <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-top' %}">Top Rated</a></li>
                     <li class="list-group-item list-group-item-light"><a href="#">Genres</a></li>
                 </ul>

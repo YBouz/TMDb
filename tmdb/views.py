@@ -22,7 +22,7 @@ class PersonDetailView(DetailView):
 
 class TitleListView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
     queryset = Title.objects.annotate(
         avg_rating=Avg('titlereview__rating')
@@ -37,7 +37,7 @@ class TitleDetailView(DetailView):
 
 class TitleSearchView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
 
     def get_queryset(self):
@@ -56,7 +56,7 @@ class TitleSearchView(ListView):
 
 class MovieListView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
     queryset = Title.objects.filter(type__exact='Movie').annotate(
         avg_rating=Avg('titlereview__rating')
@@ -66,7 +66,7 @@ class MovieListView(ListView):
 
 class ShowListView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
     queryset = Title.objects.filter(type__exact='Show').annotate(
         avg_rating=Avg('titlereview__rating')
@@ -76,7 +76,7 @@ class ShowListView(ListView):
 
 class LatestListView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
     queryset = Title.objects.filter(year__exact=timezone.now().year).annotate(
         avg_rating=Avg('titlereview__rating')
@@ -86,7 +86,7 @@ class LatestListView(ListView):
 
 class TopRatedListView(ListView):
     model = Title
-    template_name = 'tmdb/home.html'
+    template_name = 'tmdb/title_list.html'
     context_object_name = 'titles'
     queryset = Title.objects.all().annotate(
         avg_rating=Avg('titlereview__rating')

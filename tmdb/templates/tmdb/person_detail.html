@@ -1,65 +1,63 @@
 {% extends "tmdb/base.html" %}
 {% block content %}
-    <a class="article-title" href="{% url 'title-detail' person.id %}">
-        <div class="card mb-3">
-            <div class="card-body row">
-                <div class="col-2 card-title align-self-center">
-                    <img class="article-img" src="{{ person.image.url }}" alt="{{ person.name }} Poster">
-                </div>
-                <div class="col-10 card-title align-self-center">
-                    <h3>{{ person.name }}</h3>
-                </div>
+    <div class="card mb-3">
+        <div class="card-body row">
+            <div class="col-2 card-title align-self-center">
+                <img class="card-img" src="{{ person.image.url }}" alt="{{ person.name }} Poster">
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <b>Date of Birth: </b> <span class="text-muted">{{ person.dob }}</span>
-                </li>
-                <li class="list-group-item">
-                    {{ person.description }}
-                </li>
-
-                <li class="list-group-item">
-                    <div class="row">
-                        {% for title in person.titlecrew_set.all %}
-                            <div class="col-4 text-center">
-                                <a class="article-title" href="{% url 'title-detail' title.title.id %}">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <img class="article-img" src="{{ title.title.image.url }}"
-                                                     alt="{{ title.title.name }} Image">
-                                            </div>
-                                            <div class="card-title">
-                                                <p>{{ title.title.name }}</p>
-                                                <p class="text-muted">{{ title.role }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endfor %}
-
-                        {% for title in person.titlecast_set.all %}
-                            <div class="col-4 text-center">
-                                <a class="article-title" href="{% url 'title-detail' title.title.id %}">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <img class="article-img" src="{{ title.title.image.url }}"
-                                                     alt="{{ title.title.name }} Image">
-                                            </div>
-                                            <div class="card-title">
-                                                <p>{{ title.title.name }}</p>
-                                                <p class="text-muted">{{ title.character }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </li>
-            </ul>
+            <div class="col-10 card-title align-self-center">
+                <h3>{{ person.name }}</h3>
+            </div>
         </div>
-    </a>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <b>Date of Birth: </b> <span class="text-muted">{{ person.dob }}</span>
+            </li>
+            <li class="list-group-item">
+                {{ person.description }}
+            </li>
+
+            <li class="list-group-item">
+                <div class="row">
+                    {% for title in person.titlecrew_set.all %}
+                        <div class="col-4 text-center">
+                            <a class="card-title" href="{% url 'title-detail' title.title.id %}">
+                                <div class="card card-inner card-link mb-3">
+                                    <div class="card-body">
+                                        <div>
+                                            <img class="card-img" src="{{ title.title.image.url }}"
+                                                 alt="{{ title.title.name }} Image">
+                                        </div>
+                                        <div>
+                                            <p>{{ title.title.name }}</p>
+                                            <p class="text-muted">{{ title.role }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                    {% for title in person.titlecast_set.all %}
+                        <div class="col-4 text-center">
+                            <a class="card-title" href="{% url 'title-detail' title.title.id %}">
+                                <div class="card card-inner card-link mb-3">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <img class="card-img" src="{{ title.title.image.url }}"
+                                                 alt="{{ title.title.name }} Image">
+                                        </div>
+                                        <div class="card-title">
+                                            <p>{{ title.title.name }}</p>
+                                            <p class="text-muted">{{ title.character }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+    </div>
 {% endblock content %}
