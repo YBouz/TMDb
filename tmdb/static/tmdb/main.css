@@ -55,12 +55,16 @@ ul {
   margin-bottom: 20px;
 }
 
-.article-title {
+.card {
   color: #444444;
 }
 
-.article-content {
-  white-space: pre-line;
+.card-link:hover {
+  opacity: 0.6;
+}
+
+.article-title {
+  color: #444444;
 }
 
 .article-img {

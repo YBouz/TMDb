@@ -1,22 +1,37 @@
 {% extends "tmdb/base.html" %}
 {% block content %}
     {% for title in titles %}
-        <a class="article-title" href="{% url 'title-detail' title.id %}">
-            <article class="media content-section content-post">
-                <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <h2>{{ title.name }} <small class="text-muted">{{ title.year }}</small></h2>
+        <a href="{% url 'title-detail' title.id %}">
+            <div class="card card-link mb-3">
+                <div class="card-body row">
+                    <div class="col-2 card-title align-self-center">
+                        <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
                     </div>
-                    <p class="text-muted mb-2">
-                        {% for genre in title.titlegenre_set.all %}
-                            {{ genre.genre.name }},
-                        {% endfor %}
-                    </p>
-                    <p class="article-content">{{ title.description }}</p>
+                    <div class="col-10 card-title align-self-center">
+                        <h3>
+                            {{ title.name }}
+                            <small class="text-muted">{{ title.year }}</small>
+                        </h3><br>
 
+                        {% if title.avg_rating %}
+                            <h5>{{ title.avg_rating }} <span style="color: gold">&starf;</span></h5>
+                        {% else %}
+                            <small><span style="color: gold">&starf;</span> Rate now?</small>
+                        {% endif %}
+                    </div>
                 </div>
-            </article>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Genres:</b>
+                        {% for genre in title.titlegenre_set.all %}
+                            {% include "tmdb/comma.html" %}{{ genre.genre.name }}
+                        {% endfor %}
+                    </li>
+                    <li class="list-group-item">
+                        {{ title.description }}
+                    </li>
+                </ul>
+            </div>
         </a>
     {% endfor %}
     {% if is_paginated %}

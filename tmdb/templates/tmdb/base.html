@@ -34,8 +34,9 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'tmdb-home' %}">Home</a>
-                    <a class="nav-item nav-link" href="#">Movies</a>
-                    <a class="nav-item nav-link" href="#">TV Shows</a>
+                    <a class="nav-item nav-link" href="{% url 'tmdb-movies' %}">Movies</a>
+                    <a class="nav-item nav-link" href="{% url 'tmdb-shows' %}">Shows</a>
+                    <a class="nav-item nav-link" href="{% url 'tmdb-persons' %}">Persons</a>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
@@ -73,7 +74,7 @@
             <div class="content-section">
                 <h3>Browse</h3>
                 <small class="text-muted ml-2">
-                    You can search for a movie by title or director.
+                    You can search for a movie or show by title.
                 </small>
 
                 <form method="get" action="{% url 'title-search' %}" class="form-inline ml-2">
@@ -87,8 +88,8 @@
 
                 <p class='text-muted ml-2'>Browse by:
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light"><a href="#">Latest Movies</a></li>
-                    <li class="list-group-item list-group-item-light"><a href="#">Top Rated</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-latest' %}">{% now 'Y' %} Release</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-top' %}">Top Rated</a></li>
                     <li class="list-group-item list-group-item-light"><a href="#">Genres</a></li>
                 </ul>
                 </p>
@@ -103,12 +104,13 @@
     <!-- Footer Elements -->
     <div class="container">
         <!-- Call to action -->
-        <h5 class="text-center" style="color: #cbd5db">Join now <a href="{% url 'register' %}" class="btn btn-outline-info">Register!</a></h5>
+        <h5 class="text-center" style="color: #cbd5db">Join now <a href="{% url 'register' %}"
+                                                                   class="btn btn-outline-info">Register!</a></h5>
     </div>
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">
-        &copy; 2021 Copyright <a href="{% url 'tmdb-home' %}"> TMDb</a>
+        &copy; {% now 'Y' %} Copyright <a href="{% url 'tmdb-home' %}"> TMDb</a>
         <br>
         Made with &hearts; by <a href="https://bouz.me">Bouz</a>
     </div>

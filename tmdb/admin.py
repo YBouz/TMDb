@@ -53,7 +53,7 @@ class ReviewInline(admin.TabularInline):
 
 class TitleAdmin(admin.ModelAdmin):
     list_display = ['name', 'year']
-    list_filter = ['year']
+    list_filter = ['year', 'titlegenre__genre__name']
     search_fields = ['name', 'year']
     inlines = [GenreInline, CrewInline, CastInline, ProductionInline, ReviewInline]
 

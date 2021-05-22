@@ -1,90 +1,124 @@
 {% extends "tmdb/base.html" %}
 {% block content %}
-    <article class="media content-section">
-        <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
-        <div class="media-body">
-            <div class="article-metadata">
-                <h2>{{ title.name }} <small class="text-muted">{{ title.year }}</small></h2>
+    <div class="card mb-3">
+        <div class="card-body row">
+            <div class="col-2 card-title align-self-center">
+                <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
             </div>
-            <p class="text-muted mb-2">
+            <div class="col-10 card-title align-self-center">
+                <h2><b>{{ title.name }}</b> <small class="text-muted">{{ title.year }}</small></h2>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <b>Genres:</b>
                 {% for genre in title.titlegenre_set.all %}
-                    {{ genre.genre.name }},
+                    {% include "tmdb/comma.html" %}{{ genre.genre.name }}
                 {% endfor %}
-            </p>
-            <p class="article-content">{{ title.description }}</p>
+            </li>
 
-            <iframe class="mb-2" width="560" height="315" src="{{ title.trailer_url }}"
-                    title="{{ title.name }} Trailer"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-            </iframe>
+            <li class="list-group-item">
+                <b>Production:</b>
+                {% for production in title.titleproduction_set.all %}
+                    {% include "tmdb/comma.html" %}{{ production.company.name }}
+                {% endfor %}
+            </li>
 
-            <div class="mt-3 mr-3">
-                <table class="text-center table table-bordered table-striped">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Cast & Crew</th>
-                        <th>Role</th>
-                    </tr>
-                    </thead>
+            {% if title.runtime %}
+                <li class="list-group-item">
+                    <b>Runtime:</b>
+                    {{ title.runtime }} minutes
+                </li>
+            {% endif %}
 
-                    <tbody>
+            <li class="list-group-item">
+                {{ title.description }}
+            </li>
+
+            <li class="list-group-item align-self-center">
+                <iframe class="mb-2" width="560" height="315" src="{{ title.trailer_url }}"
+                        title="{{ title.name }} Trailer"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </li>
+
+            <li class="list-group-item">
+                <h2 class="mt-3 mb-3"><b>Cast & Crew</b></h2>
+                <div class="row">
                     {% for crew in title.titlecrew_set.all %}
-                        <tr>
-                            <td>{{ crew.person.name }}</td>
-                            <td>{{ crew.role }}</td>
-                        </tr>
+                        <div class="col-4 text-center">
+                            <a href="{% url 'person-detail' crew.person.id %}">
+                                <div class="card card-link mb-3">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <img class="article-img" src="{{ crew.person.image.url }}"
+                                                 alt="{{ crew.person.name }} Image">
+                                        </div>
+                                        <div class="card-title">
+                                            <p>{{ crew.person.name }}</p>
+                                            <p class="text-muted">{{ crew.role }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     {% endfor %}
 
                     {% for cast in title.titlecast_set.all %}
-                        <tr>
-                            <td>{{ cast.person.name }}</td>
-                            <td>{{ cast.character }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </article>
-
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <h2>Reviews <a class="btn btn-outline-primary btn-sm mt-1 mb-1"
-                               href="{% url 'review-create' title.id %}">New</a></h2>
-                <div>
-
-                </div>
-            </div>
-            {% for review in title.titlereview_set.all %}
-                <article class="media review-section mt-4">
-                    <div class="media-body">
-                        <div class="article-metadata mb-3">
-                            <h6 style="color: #005487; font-weight: bold;">{{ review.author }} <small
-                                    class="text-muted">{{ review.date_posted }}</small></h6>
-                            {% if review.author == user %}
-                                <div>
-                                    <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
-                                       href="{% url 'review-update' review.id %}">Update</a>
-                                    <a class="btn btn-outline-danger btn-sm mt-1 mb-1"
-                                       href="{% url 'review-delete' review.id %}">Delete</a>
+                        <div class="col-4 text-center">
+                            <a href="{% url 'person-detail' cast.person.id %}">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <img class="article-img" src="{{ cast.person.image.url }}"
+                                                 alt="{{ cast.person.name }} Image">
+                                        </div>
+                                        <div class="card-title">
+                                            <p>{{ cast.person.name }}</p>
+                                            <p class="text-muted">{{ cast.character }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            {% endif %}
+                            </a>
                         </div>
+                    {% endfor %}
+                </div>
+            </li>
 
-                        <p>{{ review.rating }} &starf;</p>
-                        <p>{{ review.content }}</p>
+            <li class="list-group-item">
+                <h2><b>Reviews</b> <a class="btn btn-outline-primary btn-sm mt-1 mb-1"
+                                      href="{% url 'review-create' title.id %}">New</a></h2>
+                {% for review in title.titlereview_set.all %}
+                    <div class="col-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <p style="font-weight: bold; color: #005487;">
+                                        {{ review.author }}
+                                        <small class="text-muted">{{ review.date_posted }}</small>
+                                        {% if review.author == user %}
+                                            <div>
+                                                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
+                                                   href="{% url 'review-update' review.id %}">Update</a>
+                                                <a class="btn btn-outline-danger btn-sm mt-1 mb-1"
+                                                   href="{% url 'review-delete' review.id %}">Delete</a>
+                                            </div>
+                                        {% endif %}
+                                    </p>
 
+                                    <p>{{ review.rating }} <span style="color: gold">&starf;</span></p>
+                                    <p>{{ review.content }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </article>
-            {% empty %}
-                <h4 class="mt-4">No reviews have been posted yet!</h4>
-                <a href="#">Would you like to be the first?</a>
-            {% endfor %}
-
-        </div>
-    </article>
+                {% empty %}
+                    <h4 class="mt-4">No reviews have been posted yet!</h4>
+                    <a href="{% url 'review-create' title.id %}">Would you like to be the first?</a>
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
 {% endblock content %}
