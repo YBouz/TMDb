@@ -1,15 +1,19 @@
 {% extends "tmdb/base.html" %}
 {% block content %}
-    {% for movie in movies_search %}
-        <a class="article-title" href="{% url 'movie-detail' movie.id %}">
+    {% for title in titles_search %}
+        <a class="article-title" href="{% url 'title-detail' title.id %}">
             <article class="media content-section content-post">
-                <img class="article-img" src="{{ movie.image.url }}" alt="{{ movie.title }} Poster">
+                <img class="article-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <h2>{{ movie.title }} <small class="text-muted">{{ movie.year }}</small></h2>
+                        <h2>{{ title.name }} <small class="text-muted">{{ title.year }}</small></h2>
                     </div>
-                    <p class="text-muted mb-2">{{ movie.genres }}</p>
-                    <p class="article-content">{{ movie.description }}</p>
+                    <p class="text-muted mb-2">
+                        {% for genre in title.titlegenre_set.all %}
+                            {{ genre.genre.name }},
+                        {% endfor %}
+                    </p>
+                    <p class="article-content">{{ title.description }}</p>
 
                 </div>
             </article>

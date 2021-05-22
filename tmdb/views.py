@@ -2,41 +2,33 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
-from .models import Movie, Review
+from .models import Title, TitleReview
 
 
 # Create your views here.
-def home(request):
-    context = {
-        'movies': Movie.objects.all()
-    }
-    return render(request, 'tmdb/home.html', context)
-
-
-class MovieListView(ListView):
-    model = Movie
-
-    # <app>/<model>_<viewtype>.html
+class TitleListView(ListView):
+    model = Title
     template_name = 'tmdb/home.html'
-    context_object_name = 'movies'
+    context_object_name = 'titles'
     ordering = ['-year']
     paginate_by = 5
 
 
-class MovieDetailView(DetailView):
-    model = Movie
+class TitleDetailView(DetailView):
+    model = Title
 
 
-class MovieSearchView(ListView):
-    model = Movie
-    template_name = 'tmdb/movie_search.html'
-    context_object_name = 'movies_search'
+class TitleSearchView(ListView):
+    model = Title
+    template_name = 'tmdb/home.html'
+    context_object_name = 'titles'
 
     def get_queryset(self):
-        result = super(MovieSearchView, self).get_queryset()
+        result = super(TitleSearchView, self).get_queryset()
         query = self.request.GET.get('search')
         if query:
-            postresult = Movie.objects.filter(Q(title__contains=query) | Q(directors__contains=query))
+            #postresult = Title.objects.filter(Q(name__contains=query) | Q(titlecrew__person__name__contains=query))
+            postresult = Title.objects.filter(Q(name__contains=query))
             result = postresult
         else:
             result = None
@@ -44,19 +36,19 @@ class MovieSearchView(ListView):
 
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
-    model = Review
+    model = TitleReview
     fields = ['rating', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
 
-        movie = self.get_object()
-        form.instance.movie = movie
+        title = self.get_object()
+        form.instance.title = title
         return super().form_valid(form)
 
 
 class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Review
+    model = TitleReview
     fields = ['rating', 'content']
 
     def form_valid(self, form):
@@ -71,7 +63,7 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Review
+    model = TitleReview
     success_url = '/'
 
     def test_func(self):
