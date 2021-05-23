@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.views.generic import ListView, DetailView
+
+from .forms import ReviewForm
 from .models import Title, TitleReview, Person
 
 
@@ -46,7 +48,7 @@ class TitleSearchView(ListView):
         if query:
             postresult = Title.objects.filter(Q(name__contains=query)
                                               | Q(titlecast__person__name__contains=query)
-                                              | Q(titlecrew__person__name__contains=query))\
+                                              | Q(titlecrew__person__name__contains=query)) \
                 .order_by('-year', 'name')
             result = postresult
         else:
@@ -94,39 +96,43 @@ class TopRatedListView(ListView):
     paginate_by = 5
 
 
-class ReviewCreateView(LoginRequiredMixin, CreateView):
-    model = TitleReview
-    fields = ['rating', 'content']
+@login_required
+def createReview(request, titlePK):
+    review = TitleReview(author_id=request.user.pk, title_id=titlePK)
+    # print(request.user.pk, titlePK)
+    form = ReviewForm(instance=review)
+    if request.method == 'POST':
+        # print('Print Post: ', request.POST)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('title-detail', titlePK)
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-
-        title = self.get_object()
-        form.instance.title = title
-        return super().form_valid(form)
-
-
-class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = TitleReview
-    fields = ['rating', 'content']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def test_func(self):
-        review = self.get_object()
-        if self.request.user == review.author:
-            return True
-        return False
+    context = {'form': form}
+    return render(request, 'tmdb/titlereview_form.html', context)
 
 
-class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = TitleReview
-    success_url = '/'
+@login_required
+def updateReview(request, titlePK, pk):
+    review = TitleReview.objects.get(id=pk)
+    form = ReviewForm(instance=review)
 
-    def test_func(self):
-        review = self.get_object()
-        if self.request.user == review.author:
-            return True
-        return False
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('title-detail', titlePK)
+
+    context = {'form': form}
+    return render(request, 'tmdb/titlereview_form.html', context)
+
+
+@login_required
+def deleteReview(request, titlePK, pk):
+    review = TitleReview.objects.get(id=pk)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('title-detail', titlePK)
+
+    context = {'item': review}
+    return render(request, 'tmdb/delete.html', context)

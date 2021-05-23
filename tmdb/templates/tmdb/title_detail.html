@@ -98,12 +98,12 @@
             <li class="list-group-item">
                 <h2>
                     <b>Reviews</b>
-                    {#                    <a class="btn btn-outline-primary btn-sm mt-1 mb-1"#}
-                    {#                       href="{% url 'review-create' title.id %}">New</a>#}
+                    <a class="btn btn-primary btn-sm mt-1 mb-1"
+                       href="{% url 'review-create' title.id %}">New</a>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary btn-sm mt-1 mb-1" data-toggle="modal"
                             data-target="#newReviewModal">
-                        New
+                        Modal
                     </button>
                 </h2>
 
@@ -118,9 +118,9 @@
                                         {% if review.author == user %}
                                             <div>
                                                 <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
-                                                   href="{% url 'review-update' title.id %}">Update</a>
+                                                   href="{% url 'review-update' title.id review.id %}">Update</a>
                                                 <a class="btn btn-outline-danger btn-sm mt-1 mb-1"
-                                                   href="{% url 'review-delete' review.id %}">Delete</a>
+                                                   href="{% url 'review-delete' title.id review.id %}">Delete</a>
                                             </div>
                                         {% endif %}
                                     </p>

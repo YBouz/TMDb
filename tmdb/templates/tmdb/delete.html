@@ -4,12 +4,12 @@
         <form method="post">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Delete Review</legend>
-                <h2>Are you sure you would like to delete your review of {{ object.title.name }}?</h2>
+                <legend class="border-bottom mb-4"><b>Delete Review</b></legend>
+                <h6>Are you sure you would like to delete your review of {{ item.title.name }}?</h6>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">Yes, delete now</button>
-                <a class="btn btn-secondary" href="{% url 'title-detail-detail' object.title.id %}">Nevermind</a>
+                <a class="btn btn-secondary" href="{% url 'title-detail' item.title.id %}">Nevermind</a>
             </div>
         </form>
     </div>
