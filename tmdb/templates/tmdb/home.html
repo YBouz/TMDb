@@ -1,0 +1,59 @@
+{% extends "tmdb/base.html" %}
+{% block content %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Genre');
+            data.addColumn('number', 'Popularity')
+            {% for genre in genres %}
+                data.addRow(['{{ genre.name }}', {{ genre.titlegenre_set.count }}]);
+            {% endfor %}
+
+            var options = {
+                title: 'Popularity by Genres',
+                is3D: true,
+                sliceVisibilityThreshold: .1,
+                backgroundColor: '#FFFFFF',
+                fontName: 'Montserrat',
+                fontSize: 18,
+                legend: {position: 'right', textStyle: {color: 'black', fontSize: 16}},
+                tooltip: {textStyle: {color: 'blue'}, showColorCode: true}
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+    <div class="card mb-3">
+        <div class="card-body row">
+            <div class="col-12 card-title align-self-center">
+                <h3>Welcome to the <b style="color: #005487">TV-Movie Database!</b></h3>
+            </div>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <b style="color: #005487">TMDb</b>
+                is a review website for film and television. This company was launched in 2021, by an undergraduate
+                student
+                at the American University of Sharjah.
+            </li>
+
+            <li class="list-group-item">
+                <b>Founder:</b> Youssef Bouz
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div id="piechart" style="width: 750px; height: 500px;"></div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "tmdb/base.html" %}
+{% block content %}
+
+    <div class="card mb-3">
+        <div class="card-body row">
+            <div class="col-12 card-title align-self-center">
+                <form method="GET">
+                    <fieldset class="form-group">
+                        <label for="genre">Select a genre:</label>
+                        <select name="genre" id="genre">
+                            {% for genre in genres %}
+                                <option value="{{ genre.name }}">{{ genre.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-sm" type="submit">Go</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if titles.count > 0 %}
+        {% for title in titles %}
+            <a href="{% url 'title-detail' title.id %}">
+                <div class="card card-link mb-3">
+                    <div class="card-body row">
+                        <div class="col-2 card-title align-self-center">
+                            <img class="card-img" src="{{ title.image.url }}" alt="{{ title.name }} Poster">
+                        </div>
+                        <div class="col-10 card-title align-self-center">
+                            <h3>
+                                {{ title.name }}
+                                <small class="text-muted">{{ title.year }}</small>
+                            </h3><br>
+
+                            {% if title.avg_rating %}
+                                <h5>{{ title.avg_rating }} <span style="color: gold">&starf;</span></h5>
+                            {% else %}
+                                <small><span style="color: gold">&starf;</span> Rate now?</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <b>Genres:</b>
+                            {% for genre in title.titlegenre_set.all %}
+                                {% include "tmdb/comma.html" %}{{ genre.genre.name }}
+                            {% endfor %}
+                        </li>
+                        <li class="list-group-item">
+                            {{ title.description }}
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <h3 style="color: #005487">No titles found for this genre!</h3>
+    {% endif %}
+
+{% endblock content %}

@@ -6,10 +6,16 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView
 
 from .forms import ReviewForm
-from .models import Title, TitleReview, Person
+from .models import Title, TitleReview, Person, Genre
 
 
 # Create your views here.
+class ChartsListView(ListView):
+    model = Genre
+    template_name = 'tmdb/home.html'
+    context_object_name = 'genres'
+
+
 class PersonListView(ListView):
     model = Person
     template_name = 'tmdb/person_list.html'
@@ -49,7 +55,7 @@ class TitleSearchView(ListView):
             postresult = Title.objects.filter(Q(name__contains=query)
                                               | Q(titlecast__person__name__contains=query)
                                               | Q(titlecrew__person__name__contains=query)) \
-                .order_by('-year', 'name')
+                .annotate(avg_rating=Avg('titlereview__rating')).order_by('-year', 'name')
             result = postresult
         else:
             result = None
@@ -94,6 +100,17 @@ class TopRatedListView(ListView):
         avg_rating=Avg('titlereview__rating')
     ).order_by('-avg_rating', 'name')[:5]
     paginate_by = 5
+
+
+def genreView(request):
+    if request.GET.get('genre'):
+        genreFilter = request.GET.get('genre')
+        titles = Title.objects.filter(titlegenre__genre__name=genreFilter)
+    else:
+        titles = Title.objects.all()
+
+    context = {'genres': Genre.objects.all(), 'titles': titles}
+    return render(request, 'tmdb/genre_list.html', context)
 
 
 @login_required

@@ -100,11 +100,6 @@
                     <b>Reviews</b>
                     <a class="btn btn-primary btn-sm mt-1 mb-1"
                        href="{% url 'review-create' title.id %}">New</a>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-sm mt-1 mb-1" data-toggle="modal"
-                            data-target="#newReviewModal">
-                        Modal
-                    </button>
                 </h2>
 
                 {% for review in title.titlereview_set.all %}
@@ -137,33 +132,5 @@
                 {% endfor %}
             </li>
         </ul>
-    </div>
-
-    <!-- Create Review Modal -->
-    <div class="modal fade" id="newReviewModal" tabindex="-1" role="dialog" aria-labelledby="newReviewModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="newReviewModal">Post your new review...</h4>
-                </div>
-
-                <div class="modal-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <fieldset class="form-group">
-                            {{ form|crispy }}
-                        </fieldset>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock content %}

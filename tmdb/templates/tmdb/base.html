@@ -76,25 +76,25 @@
         <div class="col-md-4">
             <div class="content-section">
                 <h3>Browse</h3>
-                <small class="text-muted ml-2">
-                    You can search for a movie or show by title.
+                <small class="text-muted">
+                    You can search for a title by name, cast or crew.
                 </small>
 
                 <form method="get" action="{% url 'title-search' %}" class="form-inline ml-2">
                     <input class="form-control form-control-sm w-75" type="text" placeholder="Search..." name="search">
-                    <button class="btn btn-outline-info btn-sm ml-2" type="submit"><i class="fa fa-search"
+                    <button class="btn btn-outline-primary btn-sm ml-2" type="submit"><i class="fa fa-search"
                                                                                       aria-hidden="true"></i></button>
 
                 </form>
 
                 <br>
 
-                <p class='text-muted ml-2'>Browse by:
+                <p class='text-muted'>Browse by:
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-latest' %}">{% now 'Y' %}
-                        Release</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-browse' %}">Browse All</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-latest' %}">{% now 'Y' %} Release</a></li>
                     <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-top' %}">Top Rated</a></li>
-                    <li class="list-group-item list-group-item-light"><a href="#">Genres</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'tmdb-genre' %}">Genres</a></li>
                 </ul>
                 </p>
             </div>
@@ -105,12 +105,14 @@
 <!-- Footer -->
 <footer class="page-footer font-small pt-4" style="margin-top: 5%; padding-bottom: 2%; padding-top: 2%;">
 
-    <!-- Footer Elements -->
-    <div class="container">
-        <!-- Call to action -->
-        <h5 class="text-center" style="color: #cbd5db">Join now <a href="{% url 'register' %}"
-                                                                   class="btn btn-outline-info">Register!</a></h5>
-    </div>
+    {% if not user.is_authenticated %}
+        <!-- Footer Elements -->
+        <div class="container">
+            <!-- Call to action -->
+            <h5 class="text-center" style="color: #cbd5db">Join now <a href="{% url 'register' %}"
+                                                                       class="btn btn-outline-info">Register!</a></h5>
+        </div>
+    {% endif %}
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">
