@@ -105,8 +105,12 @@
                 {% for review in title.titlereview_set.all %}
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="card-title">
+                            <div class="card-body row">
+                                <div class="card-title col-3 align-self-center">
+                                    <img class="rounded-circle account-img" src="{{ review.author.profile.image.url }}" alt="{{ title.name }} Poster">
+                                </div>
+
+                                <div class="card-title col-9 align-self-center">
                                     <p style="font-weight: bold; color: #005487;">
                                         {{ review.author }}
                                         <small class="text-muted">{{ review.date_posted }}</small>
